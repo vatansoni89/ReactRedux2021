@@ -1,6 +1,8 @@
 import Title from "./Title";
 import Photowall from "./PhotoWall";
 import { Component } from "react";
+import AddPhoto from "./AddPhoto";
+import {Route} from 'react-router-dom';
 
 class Main extends Component {
   state = {
@@ -22,9 +24,10 @@ class Main extends Component {
         description: "On a vacation!",
         imageLink:
           "https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/08/24/104670887-VacationExplainsTHUMBWEB.1910x1000.jpg",
-      }
+      },
     ],
-    count: 0
+    count: 0,
+    screen: "photos",
   };
 
   removePhoto = (photo, index) => {
@@ -36,28 +39,46 @@ class Main extends Component {
 
     //<<Approach 2>>
     const temp = [...this.state.posts];
-    let filtered = temp.filter(x=>x.id!==photo.id);
+    let filtered = temp.filter((x) => x.id !== photo.id);
     this.setState({ posts: filtered });
   };
 
-
-  componentDidMount(){
+  componentDidMount() {
     //console.log('<<<componentDidMount>>>');
   }
 
-  componentDidUpdate(prevProps, prevState)
-  {
-    console.log('prevProps',prevProps);
-    console.log('prevState',prevState);
-    console.log('currentState',this.state);
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prevProps", prevProps);
+    console.log("prevState", prevState);
+    console.log("currentState", this.state);
+  }
+
+  navigateTo = () => {
+    console.log('navigateTo>>',this.state);
+    this.setState({
+      screen: "addPhoto"
+    });
   }
 
   render() {
     //console.log('<<<Render>>>');
     return (
       <div>
-        <Title title="Photowall" />
-        <Photowall posts={this.state.posts} onRemovePhoto={this.removePhoto} />
+        {this.state.screen === "photos" && (
+          <div>
+            <Title title="Photowall" />
+            <Photowall
+              posts={this.state.posts}
+              onRemovePhoto={this.removePhoto}
+              navigateTo = {this.navigateTo}
+            />
+          </div>
+        )}
+        {this.state.screen === "addPhoto" && (
+          <div>
+            <AddPhoto />
+          </div>
+        )}
       </div>
     );
   }

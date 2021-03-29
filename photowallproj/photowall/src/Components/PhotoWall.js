@@ -1,8 +1,9 @@
 import Photo from "./Photo";
+import {Link} from 'react-router-dom';
 
 const Photowall = (props) => (
   <div>
-    <button className='addIcon'>+</button>
+    <Link className='addIcon' onClick={props.navigateTo} to='/AddPhoto'></Link>
     <div className="photoGrid">
       {props.posts.map((post, index) => (
         <Photo
